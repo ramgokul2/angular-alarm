@@ -11,8 +11,8 @@ import { AlarmInitService } from './init-alarms.service';
 })
 
 export class AlarmInputComponent implements OnInit{
-	alarms: Alarm[];
-	selectedAlarm: Alarm;
+	alarms: AlarmInterface[];
+	selectedAlarm: AlarmInterface;
   id: number;
   time: string;
   notes: string;
@@ -40,7 +40,7 @@ export class AlarmInputComponent implements OnInit{
       this.alarmInitService.addAlarm(newAlarm);
   }
 
-    delete(alarm: Alarm): void {
+    delete(alarm: AlarmInterface): void {
     this.alarmService
         .delete(alarm.id)
         .then(() => {
@@ -52,12 +52,12 @@ export class AlarmInputComponent implements OnInit{
 });
   }
 
-  onSelect(alarm: Alarm): void {
+  onSelect(alarm: AlarmInterface): void {
     this.selectedAlarm = alarm;
   }
 }
 
-interface Alarm {
+export interface AlarmInterface {
   id: number;
   time: string;
   notes: string;
