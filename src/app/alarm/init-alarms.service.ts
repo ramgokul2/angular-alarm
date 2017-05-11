@@ -8,6 +8,13 @@ export class AlarmInitService extends Alarm {
 		console.log("Initialized");
 		this.load();
 	}
+	getTime() {
+		let cHour:number = new Date().getHours() * 60;
+    	let cMin:number = new Date().getMinutes();
+    	let cTime:number = cHour+cMin;
+    	console.log(cTime);
+    	this.setUpAlarms(cTime);
+	}
 	getAlarms() {
 		let Alarm = JSON.parse(localStorage.getItem('Alarm'));
 		return Alarm;
@@ -20,8 +27,8 @@ export class AlarmInitService extends Alarm {
 	}
 
 	setUpAlarms(currentTime: number) {
-		setInterval(() =>this.savedAlarms(currentTime)
-			 .filter(alarm =>  this.checkAlarm(alarm, currentTime), 500));
+	this.savedAlarms(currentTime)
+			 .filter(alarm =>  this.checkAlarm(alarm, currentTime));
 	}
 
 	savedAlarms(time: number) {
@@ -38,7 +45,6 @@ export class AlarmInitService extends Alarm {
 		console.log(alarm,' ', currentTime);
 		if(alarm === currentTime) {
 			this.showAlert();
-			var interval = setInterval(() => clearTimeout(interval), 1000 * 60);
 			return true;
 		}
 		else {

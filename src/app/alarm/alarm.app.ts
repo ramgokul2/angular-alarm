@@ -21,15 +21,11 @@ export class AlarmInputComponent implements OnInit{
     this.alarms = this.alarmInitService.getAlarms();	
 	}
 	getAlarms() {
-		this.alarmInitService.getAlarms()
-						 .then(alarms => this.alarms = alarms);
+		this.alarms = this.alarmInitService.getAlarms();
 	}
 
 	ngOnInit() {
-		let cHour = new Date().getHours() * 60;
-    let cMin = new Date().getMinutes();
-    let cTime = cHour+cMin;
-    this.alarmInitService.setUpAlarms(cTime);
+    setInterval(()=> this.alarmInitService.getTime() ,1000*50);  
 	}
 
 	add(): void {
