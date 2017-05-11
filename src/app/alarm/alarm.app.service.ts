@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
-import { Alarm }       from './alarm';
+import { Alarm }       from './init-alarms';
 
 const FETCH_LATENCY = 500;
 
@@ -19,14 +19,6 @@ export class AlarmService {
                .toPromise()
                .then(response => response.json().data as Alarm[])
                .catch(this.handleError);
-  }
-
-  create(time:string, notes:string, repeat:string): Promise<Alarm> {
-    return this.http
-      .post(this.alarmsUrl, JSON.stringify({time: time, notes: notes, repeat: repeat}), {headers: this.headers})
-      .toPromise()
-      .then(res => res.json().data as Alarm)
-      .catch(this.handleError);
   }
 
   delete(id: number): Promise<void> {
