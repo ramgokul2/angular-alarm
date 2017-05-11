@@ -1,0 +1,27 @@
+<div>
+	
+<form novalidate [formGroup] = "form" (ngSubmit)="add($event)">
+<label> Alarm time: </label>
+<input formControlName="time" type="time">
+<label> Notes: </label>
+<input formControlName="notes">
+<label> Repeat Options: </label>
+<input type="radio" value="Once" formControlName="repeat"> Once
+<input type="radio" value="Mon-Fri" formControlName="repeat"> Mon-Fri
+<input type="radio" value="Daily" formControlName="repeat"> Daily
+<button type="submit">Submit</button>
+
+</form>
+
+</div>
+
+<ul class="alarms">
+  <li *ngFor="let alarm of alarms"  (click)="onSelect(alarm)"
+      [class.selected]="alarm === selectedAlarm">
+    <span class="badge">{{alarm.time}}</span>
+    <span>{{alarm.notes}}</span>
+    <span>{{alarm.repeat}}</span>
+    <button class="delete"
+      (click)="delete(alarm); $event.stopPropagation()">x</button>
+  </li>
+</ul>

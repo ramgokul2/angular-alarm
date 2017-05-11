@@ -18,8 +18,8 @@ var AppComponent = (function () {
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        template: "<div class=\"clock\">{{ time | async | date: 'mediumTime'}}</div>",
-        styleUrls: ['./app.component.css']
+        template: "<div class=\"clock\">{{ time | async | date: 'mediumTime'}}</div>\n  \t\t\t <alarm-input> </alarm-input>",
+        styleUrls: ['./app.component.css'],
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;
