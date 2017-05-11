@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Alarm } from './init-alarms';
-
+import { AlarmInterface } from './alarm.app'
+	
 @Injectable() 
 export class AlarmInitService extends Alarm {
 	constructor() {
@@ -15,11 +16,11 @@ export class AlarmInitService extends Alarm {
     	console.log(cTime);
     	this.setUpAlarms(cTime);
 	}
-	getAlarms() {
+	getAlarms():AlarmInterface[] {
 		let Alarm = JSON.parse(localStorage.getItem('Alarm'));
 		return Alarm;
 	}
-	addAlarm(alarm) {
+	addAlarm(alarm: AlarmInterface ) {
 		console.log("Added...", alarm);
 		let Alarm = JSON.parse(localStorage.getItem('Alarm'));
 		Alarm.push(alarm);
