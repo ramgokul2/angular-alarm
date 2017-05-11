@@ -23,6 +23,13 @@ var AlarmInitService = (function (_super) {
         _this.load();
         return _this;
     }
+    AlarmInitService.prototype.getTime = function () {
+        var cHour = new Date().getHours() * 60;
+        var cMin = new Date().getMinutes();
+        var cTime = cHour + cMin;
+        console.log(cTime);
+        this.setUpAlarms(cTime);
+    };
     AlarmInitService.prototype.getAlarms = function () {
         var Alarm = JSON.parse(localStorage.getItem('Alarm'));
         return Alarm;
@@ -35,8 +42,8 @@ var AlarmInitService = (function (_super) {
     };
     AlarmInitService.prototype.setUpAlarms = function (currentTime) {
         var _this = this;
-        setInterval(function () { return _this.savedAlarms(currentTime)
-            .filter(function (alarm) { return _this.checkAlarm(alarm, currentTime); }, 500); });
+        this.savedAlarms(currentTime)
+            .filter(function (alarm) { return _this.checkAlarm(alarm, currentTime); });
     };
     AlarmInitService.prototype.savedAlarms = function (time) {
         var Alarm = JSON.parse(localStorage.getItem('Alarm'));
@@ -51,7 +58,6 @@ var AlarmInitService = (function (_super) {
         console.log(alarm, ' ', currentTime);
         if (alarm === currentTime) {
             this.showAlert();
-            var interval = setInterval(function () { return clearTimeout(interval); }, 1000 * 60);
             return true;
         }
         else {

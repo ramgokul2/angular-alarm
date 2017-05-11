@@ -18,15 +18,11 @@ var AlarmInputComponent = (function () {
         this.alarms = this.alarmInitService.getAlarms();
     }
     AlarmInputComponent.prototype.getAlarms = function () {
-        var _this = this;
-        this.alarmInitService.getAlarms()
-            .then(function (alarms) { return _this.alarms = alarms; });
+        this.alarms = this.alarmInitService.getAlarms();
     };
     AlarmInputComponent.prototype.ngOnInit = function () {
-        var cHour = new Date().getHours() * 60;
-        var cMin = new Date().getMinutes();
-        var cTime = cHour + cMin;
-        this.alarmInitService.setUpAlarms(cTime);
+        var _this = this;
+        setInterval(function () { return _this.alarmInitService.getTime(); }, 1000 * 50);
     };
     AlarmInputComponent.prototype.add = function () {
         var newAlarm = {
