@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core'; 
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
+import {Observable, Subscriber} from 'rxjs/Rx';
 import {AlarmService} from './alarm.app.service';
-import {Alarm} from './alarm';
+import { AlarmInitService } from './init-alarms.service';
 
 @Component({
 	selector: 'alarm-input',
@@ -11,39 +11,40 @@ import {Alarm} from './alarm';
 })
 
 export class AlarmInputComponent implements OnInit{
-	form: FormGroup;
 	alarms: Alarm[];
 	selectedAlarm: Alarm;
-	constructor(public fb: FormBuilder, private alarmService: AlarmService) {
-		this.form = this.fb.group({
-			time: '',
-			notes: '',
-			repeat: 'Once'
-		})
+  id: number;
+  time: string;
+  notes: string;
+  repeat: string;
+	constructor(private alarmService: AlarmService, private alarmInitService: AlarmInitService) {
+    this.alarms = this.alarmInitService.getAlarms();	
 	}
 	getAlarms() {
-		this.alarmService.getAlarms()
+		this.alarmInitService.getAlarms()
 						 .then(alarms => this.alarms = alarms);
 	}
 
 	ngOnInit() {
-		this.getAlarms();
+		let cHour = new Date().getHours() * 60;
+    let cMin = new Date().getMinutes();
+    let cTime = cHour+cMin;
+    this.alarmInitService.setUpAlarms(cTime);
 	}
 
 	add(): void {
-    	let time = this.form.controls.time.value;
-    	let notes = this.form.controls.notes.value;
-    	let repeat = this.form.controls.repeat.value;
-    	if(!time) return;
-    	this.alarmService.create(time, notes, repeat)
-    					  .then(alarm => {
-    					  	this.alarms.push(alarm);
-    					  	this.selectedAlarm = null;
-    					  });
+    var newAlarm = {
+      id: this.id,
+    	time : this.time,
+    	notes : this.notes,
+    	repeat : this.repeat
+     } 
+    	if(!newAlarm.time) return;
+      this.alarms.push(newAlarm);
+      this.alarmInitService.addAlarm(newAlarm);
   }
 
     delete(alarm: Alarm): void {
-    	console.log(alarm);
     this.alarmService
         .delete(alarm.id)
         .then(() => {
@@ -51,10 +52,18 @@ export class AlarmInputComponent implements OnInit{
           this.alarms = this.alarms.filter(h => h !== alarm);
           if (this.selectedAlarm === alarm) { this.selectedAlarm = null;
         }
-    });
+        localStorage.setItem("alarms", JSON.stringify(this.alarms));
+});
   }
 
   onSelect(alarm: Alarm): void {
     this.selectedAlarm = alarm;
   }
+}
+
+interface Alarm {
+  id: number;
+  time: string;
+  notes: string;
+  repeat: string;
 }

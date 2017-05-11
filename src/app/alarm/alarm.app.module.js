@@ -13,6 +13,7 @@ var common_1 = require("@angular/common");
 var http_1 = require("@angular/http");
 var angular_in_memory_web_api_1 = require("angular-in-memory-web-api");
 var in_memory_data_service_1 = require("./in-memory-data.service");
+var init_alarms_service_1 = require("./init-alarms.service");
 var AlarmAppModule = (function () {
     function AlarmAppModule() {
     }
@@ -24,7 +25,7 @@ AlarmAppModule = __decorate([
             angular_in_memory_web_api_1.InMemoryWebApiModule.forRoot(in_memory_data_service_1.InMemoryDataService)],
         declarations: [alarm_app_1.AlarmInputComponent],
         exports: [alarm_app_1.AlarmInputComponent],
-        providers: [alarm_app_service_1.AlarmService]
+        providers: [alarm_app_service_1.AlarmService, init_alarms_service_1.AlarmInitService]
     })
 ], AlarmAppModule);
 exports.AlarmAppModule = AlarmAppModule;

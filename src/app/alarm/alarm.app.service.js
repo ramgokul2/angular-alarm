@@ -24,13 +24,6 @@ var AlarmService = (function () {
             .then(function (response) { return response.json().data; })
             .catch(this.handleError);
     };
-    AlarmService.prototype.create = function (time, notes, repeat) {
-        return this.http
-            .post(this.alarmsUrl, JSON.stringify({ time: time, notes: notes, repeat: repeat }), { headers: this.headers })
-            .toPromise()
-            .then(function (res) { return res.json().data; })
-            .catch(this.handleError);
-    };
     AlarmService.prototype.delete = function (id) {
         console.log(this);
         var url = this.alarmsUrl + "/" + id;

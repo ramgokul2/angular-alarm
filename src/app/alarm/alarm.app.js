@@ -9,42 +9,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var forms_1 = require("@angular/forms");
 var alarm_app_service_1 = require("./alarm.app.service");
+var init_alarms_service_1 = require("./init-alarms.service");
 var AlarmInputComponent = (function () {
-    function AlarmInputComponent(fb, alarmService) {
-        this.fb = fb;
+    function AlarmInputComponent(alarmService, alarmInitService) {
         this.alarmService = alarmService;
-        this.form = this.fb.group({
-            time: '',
-            notes: '',
-            repeat: 'Once'
-        });
+        this.alarmInitService = alarmInitService;
+        this.alarms = this.alarmInitService.getAlarms();
     }
     AlarmInputComponent.prototype.getAlarms = function () {
         var _this = this;
-        this.alarmService.getAlarms()
+        this.alarmInitService.getAlarms()
             .then(function (alarms) { return _this.alarms = alarms; });
     };
     AlarmInputComponent.prototype.ngOnInit = function () {
-        this.getAlarms();
+        var cHour = new Date().getHours() * 60;
+        var cMin = new Date().getMinutes();
+        var cTime = cHour + cMin;
+        this.alarmInitService.setUpAlarms(cTime);
     };
     AlarmInputComponent.prototype.add = function () {
-        var _this = this;
-        var time = this.form.controls.time.value;
-        var notes = this.form.controls.notes.value;
-        var repeat = this.form.controls.repeat.value;
-        if (!time)
+        var newAlarm = {
+            id: this.id,
+            time: this.time,
+            notes: this.notes,
+            repeat: this.repeat
+        };
+        if (!newAlarm.time)
             return;
-        this.alarmService.create(time, notes, repeat)
-            .then(function (alarm) {
-            _this.alarms.push(alarm);
-            _this.selectedAlarm = null;
-        });
+        this.alarms.push(newAlarm);
+        this.alarmInitService.addAlarm(newAlarm);
     };
     AlarmInputComponent.prototype.delete = function (alarm) {
         var _this = this;
-        console.log(alarm);
         this.alarmService
             .delete(alarm.id)
             .then(function () {
@@ -53,6 +50,7 @@ var AlarmInputComponent = (function () {
             if (_this.selectedAlarm === alarm) {
                 _this.selectedAlarm = null;
             }
+            localStorage.setItem("alarms", JSON.stringify(_this.alarms));
         });
     };
     AlarmInputComponent.prototype.onSelect = function (alarm) {
@@ -66,7 +64,7 @@ AlarmInputComponent = __decorate([
         templateUrl: './alarm.app.html',
         styleUrls: ['./alarm.app.css']
     }),
-    __metadata("design:paramtypes", [forms_1.FormBuilder, alarm_app_service_1.AlarmService])
+    __metadata("design:paramtypes", [alarm_app_service_1.AlarmService, init_alarms_service_1.AlarmInitService])
 ], AlarmInputComponent);
 exports.AlarmInputComponent = AlarmInputComponent;
 //# sourceMappingURL=alarm.app.js.map
