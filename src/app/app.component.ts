@@ -4,8 +4,9 @@ import { Injectable } from '@angular/core';
 
 @Component({
   selector: 'my-app',
-  template: `<div class="clock">{{ time | async | date: 'mediumTime'}}</div>`,
-  styleUrls: ['./app.component.css']
+  template: `<div class="clock">{{ time | async | date: 'mediumTime'}}</div>
+  			 <alarm-input> </alarm-input>`,
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   time = new Observable<string>((observer: Subscriber<string>) => {

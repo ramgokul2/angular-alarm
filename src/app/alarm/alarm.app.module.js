@@ -6,29 +6,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require("@angular/core");
-var platform_browser_1 = require("@angular/platform-browser");
 var forms_1 = require("@angular/forms");
+var alarm_app_1 = require("./alarm.app");
+var alarm_app_service_1 = require("./alarm.app.service");
 var common_1 = require("@angular/common");
-var material_1 = require("@angular/material");
 var http_1 = require("@angular/http");
 var angular_in_memory_web_api_1 = require("angular-in-memory-web-api");
-var in_memory_data_service_1 = require("./alarm/in-memory-data.service");
-var app_component_1 = require("./app.component");
-var alarm_app_module_1 = require("./alarm/alarm.app.module");
-var AppModule = (function () {
-    function AppModule() {
+var in_memory_data_service_1 = require("./in-memory-data.service");
+var AlarmAppModule = (function () {
+    function AlarmAppModule() {
     }
-    return AppModule;
+    return AlarmAppModule;
 }());
-AppModule = __decorate([
+AlarmAppModule = __decorate([
     core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule,
-            forms_1.FormsModule, common_1.CommonModule, alarm_app_module_1.AlarmAppModule, material_1.MaterialModule.forRoot(), http_1.HttpModule,
+        imports: [forms_1.FormsModule, forms_1.ReactiveFormsModule, common_1.CommonModule, http_1.HttpModule,
             angular_in_memory_web_api_1.InMemoryWebApiModule.forRoot(in_memory_data_service_1.InMemoryDataService)],
-        declarations: [app_component_1.AppComponent],
-        bootstrap: [app_component_1.AppComponent],
-        exports: [material_1.MaterialModule]
+        declarations: [alarm_app_1.AlarmInputComponent],
+        exports: [alarm_app_1.AlarmInputComponent],
+        providers: [alarm_app_service_1.AlarmService]
     })
-], AppModule);
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+], AlarmAppModule);
+exports.AlarmAppModule = AlarmAppModule;
+//# sourceMappingURL=alarm.app.module.js.map
