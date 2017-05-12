@@ -40,6 +40,16 @@ var AlarmInitService = (function (_super) {
         Alarm.push(alarm);
         localStorage.setItem('Alarm', JSON.stringify(Alarm));
     };
+    AlarmInitService.prototype.deleteAlarm = function (alarm) {
+        console.log("Deleting...");
+        var Alarm = JSON.parse(localStorage.getItem('Alarm'));
+        for (var i = 0; i < Alarm.length; i++) {
+            if (alarm.time === Alarm[i].time && alarm.repeat == Alarm[i].repeat) {
+                Alarm.splice(i, 1);
+            }
+            localStorage.setItem('Alarm', JSON.stringify(Alarm));
+        }
+    };
     AlarmInitService.prototype.setUpAlarms = function (currentTime) {
         var _this = this;
         this.savedAlarms(currentTime)

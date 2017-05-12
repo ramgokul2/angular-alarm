@@ -46,7 +46,8 @@ var AlarmInputComponent = (function () {
             if (_this.selectedAlarm === alarm) {
                 _this.selectedAlarm = null;
             }
-            localStorage.setItem("alarms", JSON.stringify(_this.alarms));
+            _this.alarmInitService.deleteAlarm(alarm);
+            // localStorage.setItem("alarms", JSON.stringify(this.alarms));
         });
     };
     AlarmInputComponent.prototype.onSelect = function (alarm) {

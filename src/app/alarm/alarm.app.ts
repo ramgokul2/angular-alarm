@@ -48,7 +48,8 @@ export class AlarmInputComponent implements OnInit{
           this.alarms = this.alarms.filter(h => h !== alarm);
           if (this.selectedAlarm === alarm) { this.selectedAlarm = null;
         }
-        localStorage.setItem("alarms", JSON.stringify(this.alarms));
+        this.alarmInitService.deleteAlarm(alarm);
+       // localStorage.setItem("alarms", JSON.stringify(this.alarms));
 });
   }
 
