@@ -39,23 +39,33 @@ export class AlarmInitService extends Alarm {
 	}
 
 	setUpAlarms(currentTime: number) {
-	this.savedAlarms(currentTime)
-			 .filter(alarm =>  this.checkAlarm(alarm, currentTime));
+		 this.savedAlarms(currentTime)
+			 .filter(alarm =>  this.checkAlarm(alarm.savedTime, currentTime, alarm.savedRepeat));
 	}
 
 	savedAlarms(time: number) {
 		let Alarm = JSON.parse(localStorage.getItem('Alarm'));
 		return Object.keys(Alarm).map(param => {
 			let time = Alarm[param].time;
+			let repeat =Alarm[param].repeat;
+			let alarmObj = {
+				savedTime: 0,
+				savedRepeat: ''
+			};
 			let z = time.substr(0,2);
-			let savedTime = parseInt(z,10)*60 + parseInt(time.substr(3,5),10);
-			return savedTime;
+			alarmObj.savedTime = parseInt(z,10)*60 + parseInt(time.substr(3,5),10);
+			alarmObj.savedRepeat = repeat;
+			return alarmObj;
 		});
 	}
 
-	checkAlarm(alarm: number, currentTime: number ) {
+	checkAlarm(alarm: number, currentTime: number, currentRepeat: string) {
 		console.log(alarm,' ', currentTime);
+		let t = new Date();
 		if(alarm === currentTime) {
+			if(currentRepeat === "Mon-Fri" && (t.getDay()=== 6 || t.getDay()==7)) {
+				return false;
+			} 
 			this.showAlert();
 			return true;
 		}

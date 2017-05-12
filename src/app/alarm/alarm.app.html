@@ -20,7 +20,7 @@
       [class.selected]="alarm === selectedAlarm">
     <span class="badge">{{alarm.time}}</span>
     <span>{{alarm.notes}}</span>
-    <span>{{alarm.repeat}}</span>
+    <span class="rp">{{alarm.repeat}}</span>
     <button class="delete"
       (click)="delete(alarm); $event.stopPropagation()">x</button>
   </li>

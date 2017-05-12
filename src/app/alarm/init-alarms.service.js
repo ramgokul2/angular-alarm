@@ -53,20 +53,30 @@ var AlarmInitService = (function (_super) {
     AlarmInitService.prototype.setUpAlarms = function (currentTime) {
         var _this = this;
         this.savedAlarms(currentTime)
-            .filter(function (alarm) { return _this.checkAlarm(alarm, currentTime); });
+            .filter(function (alarm) { return _this.checkAlarm(alarm.savedTime, currentTime, alarm.savedRepeat); });
     };
     AlarmInitService.prototype.savedAlarms = function (time) {
         var Alarm = JSON.parse(localStorage.getItem('Alarm'));
         return Object.keys(Alarm).map(function (param) {
             var time = Alarm[param].time;
+            var repeat = Alarm[param].repeat;
+            var alarmObj = {
+                savedTime: 0,
+                savedRepeat: ''
+            };
             var z = time.substr(0, 2);
-            var savedTime = parseInt(z, 10) * 60 + parseInt(time.substr(3, 5), 10);
-            return savedTime;
+            alarmObj.savedTime = parseInt(z, 10) * 60 + parseInt(time.substr(3, 5), 10);
+            alarmObj.savedRepeat = repeat;
+            return alarmObj;
         });
     };
-    AlarmInitService.prototype.checkAlarm = function (alarm, currentTime) {
+    AlarmInitService.prototype.checkAlarm = function (alarm, currentTime, currentRepeat) {
         console.log(alarm, ' ', currentTime);
+        var t = new Date();
         if (alarm === currentTime) {
+            if (currentRepeat === "Mon-Fri" && (t.getDay() === 6 || t.getDay() == 7)) {
+                return false;
+            }
             this.showAlert();
             return true;
         }
