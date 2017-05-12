@@ -27,6 +27,17 @@ export class AlarmInitService extends Alarm {
 		localStorage.setItem('Alarm', JSON.stringify(Alarm));
 	}
 
+	deleteAlarm(alarm: AlarmInterface) {
+		console.log("Deleting...");
+		let Alarm = JSON.parse(localStorage.getItem('Alarm'));
+		for(let i=0; i<Alarm.length; i++ ) {
+			if(alarm.time === Alarm[i].time && alarm.repeat == Alarm[i].repeat ) {
+				Alarm.splice(i,1);
+			}
+		localStorage.setItem('Alarm', JSON.stringify(Alarm));
+		}
+	}
+
 	setUpAlarms(currentTime: number) {
 	this.savedAlarms(currentTime)
 			 .filter(alarm =>  this.checkAlarm(alarm, currentTime));
