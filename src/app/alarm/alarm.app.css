@@ -2,7 +2,7 @@
 .alarms {
   margin: 0 0 2em 0;
   list-style-type: none;
-  padding: 0;
+  padding: 16px;
   width: 55em;
 }
 
@@ -73,5 +73,12 @@ button.delete {
   margin-top: 2px;
   margin-right: .8em;
   background-color: gray !important;
-  color:white;
+  color:red;
+}
+span.rp {
+  position: relative;
+  left: 590px;
+  font-size: larger;
+  font-family: cursive;
+  color: red;
 }
