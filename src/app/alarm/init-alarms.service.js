@@ -53,39 +53,43 @@ var AlarmInitService = (function (_super) {
     AlarmInitService.prototype.setUpAlarms = function (currentTime) {
         var _this = this;
         this.savedAlarms(currentTime)
-            .filter(function (alarm) { return _this.checkAlarm(alarm.savedTime, currentTime, alarm.savedRepeat); });
+            .filter(function (alarm) { return _this.checkAlarm(alarm.savedTime, currentTime, alarm.savedRepeat, alarm.savedNotes, alarm.time); });
     };
     AlarmInitService.prototype.savedAlarms = function (time) {
         var Alarm = JSON.parse(localStorage.getItem('Alarm'));
         return Object.keys(Alarm).map(function (param) {
             var time = Alarm[param].time;
+            var notes = Alarm[param].notes;
             var repeat = Alarm[param].repeat;
             var alarmObj = {
+                savedNotes: '',
                 savedTime: 0,
-                savedRepeat: ''
+                savedRepeat: '',
+                time: ''
             };
             var z = time.substr(0, 2);
             alarmObj.savedTime = parseInt(z, 10) * 60 + parseInt(time.substr(3, 5), 10);
             alarmObj.savedRepeat = repeat;
+            alarmObj.savedNotes = notes;
             return alarmObj;
         });
     };
-    AlarmInitService.prototype.checkAlarm = function (alarm, currentTime, currentRepeat) {
+    AlarmInitService.prototype.checkAlarm = function (alarm, currentTime, currentRepeat, currentNotes, time) {
         console.log(alarm, ' ', currentTime);
         var t = new Date();
         if (alarm === currentTime) {
             if (currentRepeat === "Mon-Fri" && (t.getDay() === 6 || t.getDay() == 7)) {
                 return false;
             }
-            this.showAlert();
+            this.showAlert(currentNotes);
             return true;
         }
         else {
             return false;
         }
     };
-    AlarmInitService.prototype.showAlert = function () {
-        alert("wake up!");
+    AlarmInitService.prototype.showAlert = function (currentNotes) {
+        alert(currentNotes);
     };
     return AlarmInitService;
 }(init_alarms_1.Alarm));
